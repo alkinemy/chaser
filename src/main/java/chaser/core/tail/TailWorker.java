@@ -2,70 +2,45 @@ package chaser.core.tail;
 
 import chaser.util.IOUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TailWorker {
-	private String lineStartPattern;
 
-	public TailWorker(String lineStartPattern) {
-		this.lineStartPattern = lineStartPattern;
-	}
-
-	public List<String> read(String targetFileName) {
-		return read(new File(targetFileName));
-	}
-
-	public List<String> read(File target) {
-		/**
-		 * 1. http://www.informit.com/guides/content.aspx?g=java&seqNum=226 참고
-		 * 파일 사이즈가 줄어드는경우 처리
-		 * line 분리 처리
-		 * tail & listener(handler?)
-		 * listener처리
-		 */
+	public void read(Path target, long position) {
 		List<String> lines = new ArrayList<>();
 		RandomAccessFile randomAccessFile = null;
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		int streamPosition = 0;
 		try {
-			randomAccessFile = new RandomAccessFile(target, "rwd");
-			randomAccessFile.seek(target.length());
-
-			long fileLength = randomAccessFile.length();
-			while(target.length() >= fileLength);
+			File targetFile = target.toFile();
+			byte[] buffer = new byte[4096];
 
 			do {
-				Thread.sleep(1);
-
-				randomAccessFile.seek(fileLength);
-				StringBuilder sb = null;
-				String line;
-				while ((line = randomAccessFile.readLine()) != null) {
-					if (line.startsWith(lineStartPattern)) {
-						if (sb != null) {
-							lines.add(sb.toString());
-						}
-						sb = new StringBuilder();
-					}
-					if (sb == null) {
-						sb = new StringBuilder();
-					}
-					sb.append(line).append(System.lineSeparator());
+				randomAccessFile = new RandomAccessFile(targetFile, "r");
+				randomAccessFile.seek(position);
+				int readCount;
+				while ((readCount = randomAccessFile.read(buffer)) != -1) {
+					byteArrayOutputStream.write(buffer, streamPosition, readCount);
+					streamPosition += readCount;
+					buffer = new byte[4096];
 				}
-				lines.add(sb.toString());
-				fileLength = randomAccessFile.length();
-			} while(target.length() > fileLength);
-			return lines;
+
+			} while(targetFile.length() > randomAccessFile.length());
+
+			//TODO byteArrayOutputStream에 저장된 값 처리
+			//TODO stream 처리 제대로 된건지 확인 필요
+			//TODO event 넘기기
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			return null;
 		} finally {
 			IOUtils.closeQuietly(randomAccessFile);
 		}
 	}
+
 }

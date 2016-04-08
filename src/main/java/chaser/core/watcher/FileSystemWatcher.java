@@ -26,6 +26,7 @@ public class FileSystemWatcher implements Watcher {
 	public void startWatching() {
 		Path parentDirectory = target.getParent();
 		try (WatchService watchService = parentDirectory.getFileSystem().newWatchService()) {
+			//TODO create/delete event도 처리해야하나?
 			parentDirectory.register(watchService, new WatchEvent.Kind[] { ENTRY_MODIFY }, HIGH);
 
 			WatchKey key;
@@ -34,7 +35,7 @@ public class FileSystemWatcher implements Watcher {
 					key.pollEvents().stream()
 						.filter(event -> ((Path) event.context()).endsWith(target))
 						.forEach(System.out::println);
-					//TODO foreach부분에서 target file의 tail에게 읽으라고 시켜야함
+					//TODO sout위치에 파일을 읽으라는 이벤트 발생 처리
 					key.reset();
 				}
 			}

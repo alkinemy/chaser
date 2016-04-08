@@ -1,6 +1,7 @@
 package chaser.core;
 
 import chaser.core.listener.Listener;
+import chaser.core.tail.TailWorker;
 import chaser.core.watcher.Watcher;
 import chaser.core.watcher.WatcherFactory;
 import chaser.core.watcher.WatcherType;
@@ -14,9 +15,13 @@ import java.util.Objects;
 public class Chaser {
 
 	private Watcher watcher;
+	private List<Listener> listeners;
+	private TailWorker tailWorker;
 
-	private Chaser(Watcher watcher) {
+	private Chaser(Watcher watcher, List<Listener> listeners) {
 		this.watcher = watcher;
+		this.listeners = listeners;
+		this.tailWorker = new TailWorker();
 	}
 
 	public void chase() {
@@ -27,7 +32,8 @@ public class Chaser {
 		return new ChaserBuilder();
 	}
 
-	private static class ChaserBuilder {
+	public static class ChaserBuilder {
+
 		private Path target;
 		private WatcherType watcherType;
 		private List<Listener> listeners = new ArrayList<>();
@@ -50,13 +56,7 @@ public class Chaser {
 		public Chaser build() {
 			Objects.requireNonNull(watcherType, "Watcher type should not be null");
 
-			Watcher watcher = WatcherFactory.create(watcherType, target);
-			/**
-			 * TODO tail worker 처리
-			 * TODO listener 처리
-			 * tail worker안에 listener가 들어가야됨
-			 */
-			return new Chaser(watcher);
+			return new Chaser(WatcherFactory.create(watcherType, target), listeners);
 		}
 
 	}

@@ -1,13 +1,21 @@
 package chaser.example;
 
+import chaser.core.Chaser;
+import chaser.core.listener.builtin.PrintListener;
+import chaser.core.watcher.WatcherType;
+
+import java.nio.charset.Charset;
+
 public class Main {
 
 	public static void main(String[] args) {
-//		List<String> lines = new Jtail("hello").read("/Users/joke/test/test.out");
-//		for(String line : lines) {
-//			System.out.println(line);
-//			System.out.println("----------------");
-//		}
+		Chaser chaser = Chaser.builder()
+			.target("")
+			.watcher(WatcherType.FILE_SYSTEM)
+			.listener(new PrintListener(Charset.forName("UTF-8")))
+			.build();
+
+		chaser.chase();
 	}
 
 }
