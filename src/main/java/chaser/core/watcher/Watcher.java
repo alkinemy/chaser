@@ -4,4 +4,6 @@ public interface Watcher {
 
 	void startWatching();
 
+	void stopWatching();
+
 }

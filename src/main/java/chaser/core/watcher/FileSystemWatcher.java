@@ -10,7 +10,7 @@ public class FileSystemWatcher implements Watcher {
 
 	private Path target;
 
-	private boolean watchingEnabled = true; //좀 더 잘 처리...
+	private boolean watchingEnabled = true; //TODO 좀 더 잘 처리...
 
 	public FileSystemWatcher(String targetPathString) {
 		this.target = Paths.get(targetPathString);
@@ -26,7 +26,7 @@ public class FileSystemWatcher implements Watcher {
 	public void startWatching() {
 		Path parentDirectory = target.getParent();
 		try (WatchService watchService = parentDirectory.getFileSystem().newWatchService()) {
-			parentDirectory.register(watchService, new WatchEvent.Kind[]{ ENTRY_MODIFY }, HIGH);
+			parentDirectory.register(watchService, new WatchEvent.Kind[] { ENTRY_MODIFY }, HIGH);
 
 			WatchKey key;
 			while (watchingEnabled) {
@@ -42,6 +42,12 @@ public class FileSystemWatcher implements Watcher {
 			//TODO log
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void stopWatching() {
+		this.watchingEnabled = false;
+		//TODO 뭔가 더 처리가 필요할듯
 	}
 
 }
