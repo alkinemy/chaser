@@ -8,10 +8,10 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tail {
+public class TailWorker {
 	private String lineStartPattern;
 
-	public Tail(String lineStartPattern) {
+	public TailWorker(String lineStartPattern) {
 		this.lineStartPattern = lineStartPattern;
 	}
 
