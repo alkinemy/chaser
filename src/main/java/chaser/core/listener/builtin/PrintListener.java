@@ -14,7 +14,7 @@ public class PrintListener implements Listener {
 
 	@Override
 	public void process(byte[] bytes) {
-		System.out.println(new String(bytes, charset));
+		System.out.print(new String(bytes, charset));
 	}
 
 }

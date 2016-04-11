@@ -23,7 +23,7 @@ public class Chaser {
 
 	private Chaser(Watcher watcher, Path target, List<Listener> listeners) {
 		this.watcher = watcher;
-		this.target = ChaseFile.of(target, 0);
+		this.target = ChaseFile.of(target, target.toFile().length());
 		this.listeners = listeners;
 		this.tailWorker = new TailWorker();
 

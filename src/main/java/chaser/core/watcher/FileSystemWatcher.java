@@ -29,6 +29,7 @@ public class FileSystemWatcher implements Watcher {
 	@Override
 	public void startWatching() {
 		Path parentDirectory = target.getParent();
+		Path targetFile = target.getFileName();
 		try (WatchService watchService = parentDirectory.getFileSystem().newWatchService()) {
 			//TODO create/delete event도 처리해야하나?
 			parentDirectory.register(watchService, new WatchEvent.Kind[] { ENTRY_MODIFY }, HIGH);
@@ -37,7 +38,7 @@ public class FileSystemWatcher implements Watcher {
 			while (watchingEnabled) {
 				while ((key = watchService.take()) != null) {
 					key.pollEvents().stream()
-						.filter(event -> ((Path) event.context()).endsWith(target))
+						.filter(event -> ((Path) event.context()).endsWith(targetFile))
 						.forEach(event -> chaser.read());
 					key.reset();
 				}

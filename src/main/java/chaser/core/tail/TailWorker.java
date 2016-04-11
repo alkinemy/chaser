@@ -16,7 +16,7 @@ public class TailWorker {
 		int streamPosition = 0;
 		try {
 			File targetFile = target.getPath().toFile();
-			byte[] buffer = new byte[4096];
+			byte[] buffer = newBuffer();
 
 			do {
 				randomAccessFile = new RandomAccessFile(targetFile, "r");
@@ -25,11 +25,11 @@ public class TailWorker {
 				while ((readCount = randomAccessFile.read(buffer)) != -1) {
 					byteArrayOutputStream.write(buffer, streamPosition, readCount);
 					streamPosition += readCount;
-					buffer = new byte[4096];
+					buffer = newBuffer();
 				}
+				target.setPosition(randomAccessFile.getFilePointer());
 			} while(targetFile.length() > randomAccessFile.length());
 
-			target.setPosition(randomAccessFile.getFilePointer());
 			return byteArrayOutputStream.toByteArray();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -38,6 +38,10 @@ public class TailWorker {
 			IOUtils.closeQuietly(byteArrayOutputStream);
 			IOUtils.closeQuietly(randomAccessFile);
 		}
+	}
+
+	private byte[] newBuffer() {
+		return new byte[4096];
 	}
 
 }
