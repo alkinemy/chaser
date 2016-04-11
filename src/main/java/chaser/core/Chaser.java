@@ -34,8 +34,9 @@ public class Chaser {
 	}
 
 	public void read() {
-		//TODO 0을 고쳐야됨
+		//TODO async로 처리
 		byte[] bytes = tailWorker.read(target, 0);
+		//TODO async로 처리
 		listeners.parallelStream()
 			.forEach(listener -> listener.process(bytes));
 	}
