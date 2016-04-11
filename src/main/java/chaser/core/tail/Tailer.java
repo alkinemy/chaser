@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-public class TailWorker {
+public class Tailer {
 
 	public byte[] read(ChaseFile target) {
 		RandomAccessFile randomAccessFile = null;
