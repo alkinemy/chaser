@@ -18,14 +18,26 @@ public class Chaser {
 	private List<Listener> listeners;
 	private TailWorker tailWorker;
 
-	private Chaser(Watcher watcher, List<Listener> listeners) {
+	private Path target;
+
+	private Chaser(Watcher watcher, Path target, List<Listener> listeners) {
 		this.watcher = watcher;
+		this.target = target;
 		this.listeners = listeners;
 		this.tailWorker = new TailWorker();
+
+		watcher.setChaser(this);
 	}
 
 	public void chase() {
 		watcher.startWatching();
+	}
+
+	public void read() {
+		//TODO 0을 고쳐야됨
+		byte[] bytes = tailWorker.read(target, 0);
+		listeners.parallelStream()
+			.forEach(listener -> listener.process(bytes));
 	}
 
 	public static ChaserBuilder builder() {
@@ -56,7 +68,7 @@ public class Chaser {
 		public Chaser build() {
 			Objects.requireNonNull(watcherType, "Watcher type should not be null");
 
-			return new Chaser(WatcherFactory.create(watcherType, target), listeners);
+			return new Chaser(WatcherFactory.create(watcherType, target), target, listeners);
 		}
 
 	}

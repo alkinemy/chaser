@@ -7,13 +7,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TailWorker {
 
-	public void read(Path target, long position) {
-		List<String> lines = new ArrayList<>();
+	public byte[] read(Path target, long position) {
 		RandomAccessFile randomAccessFile = null;
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		int streamPosition = 0;
@@ -30,15 +27,14 @@ public class TailWorker {
 					streamPosition += readCount;
 					buffer = new byte[4096];
 				}
-
 			} while(targetFile.length() > randomAccessFile.length());
 
-			//TODO byteArrayOutputStream에 저장된 값 처리
-			//TODO stream 처리 제대로 된건지 확인 필요
-			//TODO event 넘기기
+			return byteArrayOutputStream.toByteArray();
 		} catch (IOException e) {
 			e.printStackTrace();
+			return null;
 		} finally {
+			IOUtils.closeQuietly(byteArrayOutputStream);
 			IOUtils.closeQuietly(randomAccessFile);
 		}
 	}

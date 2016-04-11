@@ -1,5 +1,7 @@
 package chaser.core.watcher;
 
+import chaser.core.Chaser;
+
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -11,6 +13,8 @@ public class FileSystemWatcher implements Watcher {
 	private Path target;
 
 	private boolean watchingEnabled = true; //TODO 좀 더 잘 처리...
+
+	private Chaser chaser;
 
 	public FileSystemWatcher(String targetPathString) {
 		this.target = Paths.get(targetPathString);
@@ -34,8 +38,7 @@ public class FileSystemWatcher implements Watcher {
 				while ((key = watchService.take()) != null) {
 					key.pollEvents().stream()
 						.filter(event -> ((Path) event.context()).endsWith(target))
-						.forEach(System.out::println);
-					//TODO sout위치에 파일을 읽으라는 이벤트 발생 처리
+						.forEach(event -> chaser.read());
 					key.reset();
 				}
 			}
@@ -49,6 +52,11 @@ public class FileSystemWatcher implements Watcher {
 	public void stopWatching() {
 		this.watchingEnabled = false;
 		//TODO 뭔가 더 처리가 필요할듯
+	}
+
+	@Override
+	public void setChaser(Chaser chaser) {
+		this.chaser = chaser;
 	}
 
 }
