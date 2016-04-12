@@ -19,8 +19,13 @@ public class Tail {
 			byte[] buffer = newBuffer();
 
 			do {
+				long position = target.getPosition();
+				if (targetFile.length() < target.getPosition()) {
+					position = 0;
+				}
+
 				randomAccessFile = new RandomAccessFile(targetFile, "r");
-				randomAccessFile.seek(target.getPosition());
+				randomAccessFile.seek(position);
 				int readCount;
 				while ((readCount = randomAccessFile.read(buffer)) != -1) {
 					byteArrayOutputStream.write(buffer, streamPosition, readCount);
@@ -28,7 +33,7 @@ public class Tail {
 					buffer = newBuffer();
 				}
 				target.setPosition(randomAccessFile.getFilePointer());
-			} while(targetFile.length() > randomAccessFile.length());
+			} while(targetFile.length() != target.getPosition());
 
 			return byteArrayOutputStream.toByteArray();
 		} catch (IOException e) {
