@@ -7,17 +7,24 @@ import chaser.core.watcher.Watcher;
 import chaser.core.watcher.WatcherFactory;
 import chaser.core.watcher.WatcherType;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
-public class Chaser {
+public class Chaser implements Closeable {
 
 	private Watcher watcher;
 	private List<Listener> listeners;
 	private Tail tail;
+
+	private ExecutorService tailExecutorService;
 
 	private ChaseFile target;
 
@@ -28,6 +35,8 @@ public class Chaser {
 		this.tail = new Tail();
 
 		watcher.setChaser(this);
+
+		tailExecutorService = Executors.newFixedThreadPool(1);
 	}
 
 	public void chase() {
@@ -35,15 +44,32 @@ public class Chaser {
 	}
 
 	public void read() {
-		//TODO async로 처리
-		byte[] bytes = tail.read(target);
-		//TODO async로 처리
-		listeners.parallelStream()
-			.forEach(listener -> listener.process(bytes));
+		tailExecutorService.execute(() -> {
+			byte[] bytes = tail.read(target);
+			//TODO async로 처리
+			listeners.parallelStream()
+				.forEach(listener -> listener.process(bytes));
+		});
 	}
 
 	public static ChaserBuilder builder() {
 		return new ChaserBuilder();
+	}
+
+	@Override
+	public void close() throws IOException {
+		tailExecutorService.shutdown();
+		try {
+			if (!tailExecutorService.awaitTermination(5, TimeUnit.SECONDS)) {
+				tailExecutorService.shutdownNow();
+				if (!tailExecutorService.awaitTermination(5, TimeUnit.SECONDS)) {
+					//TODO 로그
+				}
+			}
+		} catch (InterruptedException e) {
+			tailExecutorService.shutdownNow();
+			Thread.currentThread().interrupt();
+		}
 	}
 
 	public static class ChaserBuilder {
