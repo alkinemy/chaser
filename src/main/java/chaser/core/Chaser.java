@@ -1,7 +1,7 @@
 package chaser.core;
 
 import chaser.core.listener.Listener;
-import chaser.core.tail.Tailer;
+import chaser.core.tail.Tail;
 import chaser.core.target.ChaseFile;
 import chaser.core.watcher.Watcher;
 import chaser.core.watcher.WatcherFactory;
@@ -17,7 +17,7 @@ public class Chaser {
 
 	private Watcher watcher;
 	private List<Listener> listeners;
-	private Tailer tailer;
+	private Tail tail;
 
 	private ChaseFile target;
 
@@ -25,7 +25,7 @@ public class Chaser {
 		this.watcher = watcher;
 		this.target = ChaseFile.of(target, target.toFile().length());
 		this.listeners = listeners;
-		this.tailer = new Tailer();
+		this.tail = new Tail();
 
 		watcher.setChaser(this);
 	}
@@ -36,7 +36,7 @@ public class Chaser {
 
 	public void read() {
 		//TODO async로 처리
-		byte[] bytes = tailer.read(target);
+		byte[] bytes = tail.read(target);
 		//TODO async로 처리
 		listeners.parallelStream()
 			.forEach(listener -> listener.process(bytes));
