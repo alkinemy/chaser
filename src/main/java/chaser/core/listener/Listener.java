@@ -1,7 +1,9 @@
 package chaser.core.listener;
 
-public interface Listener {
+public interface Listener<F, T> {
 
-	void process(byte[] bytes);
+	T process(F from);
+
+	boolean triggerNext();
 
 }

@@ -2,19 +2,17 @@ package chaser.core.listener.builtin;
 
 import chaser.core.listener.Listener;
 
-import java.nio.charset.Charset;
+public class PrintListener implements Listener<String, Object> {
 
-public class PrintListener implements Listener {
-
-	private Charset charset;
-
-	public PrintListener(Charset charset) {
-		this.charset = charset;
+	@Override
+	public Object process(String str) {
+		System.out.print(str);
+		return null;
 	}
 
 	@Override
-	public void process(byte[] bytes) {
-		System.out.print(new String(bytes, charset));
+	public boolean triggerNext() {
+		return false;
 	}
 
 }

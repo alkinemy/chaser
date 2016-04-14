@@ -1,6 +1,7 @@
 package chaser.core.tail;
 
 import chaser.core.target.ChaseFile;
+import chaser.util.ByteUtils;
 import chaser.util.IOUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -10,7 +11,7 @@ import java.io.RandomAccessFile;
 
 public class Tail {
 
-	public byte[] read(ChaseFile target) {
+	public Byte[] read(ChaseFile target) {
 		RandomAccessFile randomAccessFile = null;
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		int streamPosition = 0;
@@ -35,7 +36,7 @@ public class Tail {
 				target.setPosition(randomAccessFile.getFilePointer());
 			} while(targetFile.length() != target.getPosition());
 
-			return byteArrayOutputStream.toByteArray();
+			return ByteUtils.toByteArray(byteArrayOutputStream.toByteArray());
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;

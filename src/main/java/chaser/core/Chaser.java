@@ -45,7 +45,8 @@ public class Chaser implements Closeable {
 
 	public void read() {
 		tailExecutorService.execute(() -> {
-			byte[] bytes = tail.read(target);
+			Byte[] bytes = tail.read(target);
+
 			//TODO async로 처리
 			listeners.parallelStream()
 				.forEach(listener -> listener.process(bytes));

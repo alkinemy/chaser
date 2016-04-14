@@ -1,4 +1,4 @@
-package chaser.example;
+package chaser.watcher;
 
 import org.junit.Test;
 

@@ -3,7 +3,7 @@ package chaser.util;
 import java.io.Closeable;
 import java.io.IOException;
 
-public class IOUtils {
+public abstract class IOUtils {
 
 	public static void closeQuietly(Closeable closeable) {
 		try {

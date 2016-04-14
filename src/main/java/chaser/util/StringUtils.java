@@ -1,6 +1,6 @@
 package chaser.util;
 
-public class StringUtils {
+public abstract class StringUtils {
 
 	public static boolean isNotBlank(String target) {
 		return !isBlank(target);
