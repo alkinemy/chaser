@@ -1,6 +1,4 @@
-package chaser.core.listener.builtin;
-
-import chaser.core.listener.Listener;
+package chaser.core.listener;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -11,7 +9,7 @@ public class Pipeline implements Listener<Byte[], Object> {
 
 	private List<Listener> listeners;
 
-	private Pipeline(Listener... listeners) {
+	public Pipeline(Listener... listeners) {
 		Objects.requireNonNull(listeners, "Listener should not be null");
 
 		this.listeners = Arrays.asList(listeners);

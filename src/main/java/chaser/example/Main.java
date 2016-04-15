@@ -1,9 +1,9 @@
 package chaser.example;
 
 import chaser.core.Chaser;
-import chaser.core.listener.builtin.CharsetListener;
-import chaser.core.listener.builtin.Pipeline;
-import chaser.core.listener.builtin.PrintListener;
+import chaser.core.listener.builtin.base.CharsetListener;
+import chaser.core.listener.Pipeline;
+import chaser.core.listener.builtin.base.PrintListener;
 import chaser.core.watcher.WatcherType;
 
 import java.nio.charset.Charset;

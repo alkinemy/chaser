@@ -1,27 +1,21 @@
 package chaser.core.listener.builtin;
 
 import chaser.core.listener.Listener;
+import chaser.core.listener.Pipeline;
+import chaser.core.listener.builtin.base.AppendListener;
+import chaser.core.listener.builtin.base.CharsetListener;
+import chaser.core.listener.builtin.base.TokenizeListener;
 
-import java.util.List;
-import java.util.Objects;
+import java.nio.charset.Charset;
 
-public class LogListener implements Listener<String, List<String>> {
+public class LogListener extends Pipeline {
 
-	private String logStartPattern;
-
-	public LogListener(String logStartPattern) {
-		Objects.requireNonNull(logStartPattern, "Log start pattern should not be null");
-
-		this.logStartPattern = logStartPattern;
+	public LogListener(String logStartPattern, Listener... listeners) {
+		super(
+			CharsetListener.of(Charset.forName("UTF-8")),
+			TokenizeListener.of(System.lineSeparator()),
+			AppendListener.of(logStartPattern)
+		);
 	}
 
-	@Override
-	public List<String> process(String from) {
-		return null;
-	}
-
-	@Override
-	public boolean triggerNext() {
-		return false;
-	}
 }
