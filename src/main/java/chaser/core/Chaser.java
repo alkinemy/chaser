@@ -6,6 +6,7 @@ import chaser.core.target.ChaseFile;
 import chaser.core.watcher.Watcher;
 import chaser.core.watcher.WatcherFactory;
 import chaser.core.watcher.WatcherType;
+import chaser.util.IOUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class Chaser implements Closeable {
 
@@ -25,6 +25,7 @@ public class Chaser implements Closeable {
 	private Tail tail;
 
 	private ExecutorService tailExecutorService;
+	private ExecutorService listenerExecutorService;
 
 	private ChaseFile target;
 
@@ -37,6 +38,7 @@ public class Chaser implements Closeable {
 		watcher.setChaser(this);
 
 		tailExecutorService = Executors.newFixedThreadPool(1);
+		listenerExecutorService = Executors.newFixedThreadPool(10);
 	}
 
 	public void chase() {
@@ -47,9 +49,9 @@ public class Chaser implements Closeable {
 		tailExecutorService.execute(() -> {
 			Byte[] bytes = tail.read(target);
 
-			//TODO async로 처리
 			listeners.parallelStream()
-				.forEach(listener -> listener.process(bytes));
+				.forEach(listener ->
+					listenerExecutorService.execute(() -> listener.process(bytes)));
 		});
 	}
 
@@ -59,18 +61,8 @@ public class Chaser implements Closeable {
 
 	@Override
 	public void close() throws IOException {
-		tailExecutorService.shutdown();
-		try {
-			if (!tailExecutorService.awaitTermination(5, TimeUnit.SECONDS)) {
-				tailExecutorService.shutdownNow();
-				if (!tailExecutorService.awaitTermination(5, TimeUnit.SECONDS)) {
-					//TODO 로그
-				}
-			}
-		} catch (InterruptedException e) {
-			tailExecutorService.shutdownNow();
-			Thread.currentThread().interrupt();
-		}
+		IOUtils.shutdownExecutorService(tailExecutorService);
+		IOUtils.shutdownExecutorService(listenerExecutorService);
 	}
 
 	public static class ChaserBuilder {
