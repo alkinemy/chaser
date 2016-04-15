@@ -31,7 +31,7 @@ public class Chaser implements Closeable {
 
 	private Chaser(Watcher watcher, Path target, List<Listener> listeners) {
 		this.watcher = watcher;
-		this.target = ChaseFile.of(target, target.toFile().length());
+		this.target = ChaseFile.of(target);
 		this.listeners = listeners;
 		this.tail = new Tail();
 
