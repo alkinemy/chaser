@@ -12,8 +12,6 @@ public class FileSystemWatcher implements Watcher {
 
 	private Path target;
 
-	private boolean watchingEnabled = true; //TODO 좀 더 잘 처리...
-
 	private Chaser chaser;
 
 	public FileSystemWatcher(String targetPathString) {
@@ -35,24 +33,16 @@ public class FileSystemWatcher implements Watcher {
 			parentDirectory.register(watchService, new WatchEvent.Kind[] { ENTRY_MODIFY }, HIGH);
 
 			WatchKey key;
-			while (watchingEnabled) {
-				while ((key = watchService.take()) != null) {
-					key.pollEvents().stream()
-						.filter(event -> ((Path) event.context()).endsWith(targetFile))
-						.forEach(event -> chaser.read());
-					key.reset();
-				}
+			while ((key = watchService.take()) != null) {
+				key.pollEvents().stream()
+					.filter(event -> ((Path) event.context()).endsWith(targetFile))
+					.forEach(event -> chaser.read());
+				key.reset();
 			}
 		} catch (InterruptedException | IOException e) {
 			//TODO log
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void stopWatching() {
-		this.watchingEnabled = false;
-		//TODO 뭔가 더 처리가 필요할듯
 	}
 
 	@Override
