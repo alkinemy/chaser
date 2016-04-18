@@ -1,4 +1,4 @@
-group 'joke'
+group 'chaser'
 version '0.2.0-SNAPSHOT'
 
 apply plugin: 'java'
