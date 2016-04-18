@@ -1,11 +1,11 @@
 package chaser.util;
 
-import java.util.Objects;
-
 public abstract class ByteUtils {
 
 	public static byte[] toByteArray(Byte[] bytes) {
-		Objects.requireNonNull(bytes, "Input should not be null");
+		if (bytes == null) {
+			return null;
+		}
 
 		byte[] result = new byte[bytes.length];
 		for(int i = 0; i < bytes.length; i++) {
@@ -15,7 +15,9 @@ public abstract class ByteUtils {
 	}
 
 	public static Byte[] toByteArray(byte[] bytes) {
-		Objects.requireNonNull(bytes, "Input should not be null");
+		if (bytes == null) {
+			return null;
+		}
 
 		Byte[] result = new Byte[bytes.length];
 		for(int i = 0; i < bytes.length; i++) {
