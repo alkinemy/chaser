@@ -2,11 +2,11 @@ package chaser.core.listener.builtin.base;
 
 import chaser.core.listener.Listener;
 
-public class PrintListener implements Listener<String, Object> {
+public class PrintListener implements Listener<Object, Object> {
 
 	@Override
-	public Object process(String str) {
-		System.out.print(str);
+	public Object process(Object obj) {
+		System.out.print(obj);
 		return null;
 	}
 
