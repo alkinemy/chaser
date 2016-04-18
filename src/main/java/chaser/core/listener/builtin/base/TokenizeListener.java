@@ -30,9 +30,4 @@ public class TokenizeListener implements Listener<String, List<String>> {
 		return Arrays.asList(from.split(tokenizer));
 	}
 
-	@Override
-	public boolean triggerNext() {
-		return true;
-	}
-
 }

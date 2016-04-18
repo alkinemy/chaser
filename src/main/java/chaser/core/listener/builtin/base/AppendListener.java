@@ -24,8 +24,4 @@ public class AppendListener implements Listener<String, List<String>> {
 		return null;
 	}
 
-	@Override
-	public boolean triggerNext() {
-		return true;
-	}
 }

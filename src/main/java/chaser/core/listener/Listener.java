@@ -4,6 +4,4 @@ public interface Listener<F, T> {
 
 	T process(F from);
 
-	boolean triggerNext();
-
 }

@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-public class Pipeline implements Listener<Byte[], Object> {
+public class Pipeline implements Listener {
 
 	private List<Listener> listeners;
 
@@ -20,21 +20,15 @@ public class Pipeline implements Listener<Byte[], Object> {
 	}
 
 	@Override
-	public Object process(Byte[] bytes) {
-		Object data = bytes;
+	public Object process(Object from) {
+		Object data = from;
 		Listener listener;
 		Iterator<Listener> iterator = listeners.iterator();
 		do {
 			listener = iterator.next();
 			data = listener.process(data);
-		} while (iterator.hasNext() && listener.triggerNext());
-
-		return null;
-	}
-
-	@Override
-	public boolean triggerNext() {
-		return false;
+		} while (iterator.hasNext());
+		return data;
 	}
 
 }

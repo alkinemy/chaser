@@ -10,9 +10,4 @@ public class PrintListener implements Listener<String, Object> {
 		return null;
 	}
 
-	@Override
-	public boolean triggerNext() {
-		return false;
-	}
-
 }

@@ -25,9 +25,4 @@ public class CharsetListener implements Listener<Byte[], String> {
 		return new String(ByteUtils.toByteArray(bytes), charset);
 	}
 
-	@Override
-	public boolean triggerNext() {
-		return true;
-	}
-
 }
