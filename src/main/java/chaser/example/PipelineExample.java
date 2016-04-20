@@ -1,6 +1,6 @@
 package chaser.example;
 
-import chaser.core.Chaser;
+import chaser.core.chaser.Chaser;
 import chaser.core.listener.Pipeline;
 import chaser.core.listener.builtin.base.CharsetListener;
 import chaser.core.listener.builtin.base.PrintListener;

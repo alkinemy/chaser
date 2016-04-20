@@ -26,4 +26,8 @@ public abstract class ByteUtils {
 		return result;
 	}
 
+	public static byte[][] chop(byte[] bytes, byte[] delimeter) {
+		return null;
+	}
+
 }

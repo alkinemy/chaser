@@ -1,6 +1,6 @@
 package chaser.core.watcher;
 
-import chaser.core.Chaser;
+import chaser.core.chaser.Chaser;
 
 import java.io.IOException;
 import java.nio.file.*;
