@@ -10,7 +10,6 @@ buildscript {
 	}
 }
 
-apply plugin: 'eclipse'
 apply plugin: 'spring-boot' 
 
 jar {
@@ -18,7 +17,20 @@ jar {
 	version = '0.0.1-SNAPSHOT'
 }
 
+configurations {
+    providedCompile
+
+    all*.exclude group: 'commons-logging', module: 'commons-logging'
+    all*.exclude group: 'log4j', module: 'log4j'
+    all*.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    all*.exclude group: 'org.slf4j', module: 'slf4j-jcl'
+    all*.exclude group: 'org.slf4j', module: 'slf4j-jdk14'
+
+}
+
 dependencies {
+    compile project(':chaser-core')
+
 	compile('org.springframework.boot:spring-boot-starter')
 
 	testCompile('org.springframework.boot:spring-boot-starter-test') 
