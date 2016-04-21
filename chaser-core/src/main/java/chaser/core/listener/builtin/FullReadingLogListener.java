@@ -5,13 +5,9 @@ import chaser.core.listener.Pipeline;
 import chaser.core.listener.builtin.base.CharsetListener;
 import chaser.core.listener.builtin.base.TokenizeListener;
 import chaser.util.StringUtils;
-import org.fest.util.Collections;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class FullReadingLogListener extends Pipeline {
@@ -74,7 +70,7 @@ public class FullReadingLogListener extends Pipeline {
 					intermediate.add(str);
 				}
 			}
-			if (!Collections.isNullOrEmpty(intermediate)) {
+			if (!(intermediate == null || intermediate.size() == 0)) {
 				result.add(StringUtils.join(intermediate, joiner));
 			}
 
