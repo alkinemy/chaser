@@ -6,8 +6,10 @@ public class PrintLineListener implements Listener<Object, Object> {
 
 	@Override
 	public Object process(Object obj) {
-		System.out.println(obj);
-		return null;
+		if (obj != null) {
+			System.out.println(obj);
+		}
+		return obj;
 	}
 
 }

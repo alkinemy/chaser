@@ -53,6 +53,7 @@ public class DelimiterReadingTail implements Tail {
 						Arrays.stream(Arrays.copyOfRange(lines, 0, lines.length - 1))
 							.forEach(line -> chaser.process(ByteUtils.toByteArray(line)));
 
+						byteArrayOutputStream.reset();
 						streamPosition = 0;
 						byte[] last = getLast(lines);
 						byteArrayOutputStream.write(last, streamPosition, last.length);

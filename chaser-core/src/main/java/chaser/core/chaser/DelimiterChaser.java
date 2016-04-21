@@ -20,6 +20,7 @@ public class DelimiterChaser implements Chaser {
 	private Tail tail;
 
 	private ExecutorService tailExecutorService;
+	private ExecutorService processExecutorService;
 	private ExecutorService listenerExecutorService;
 
 	private ChaseFile target;
@@ -33,6 +34,7 @@ public class DelimiterChaser implements Chaser {
 		watcher.setChaser(this);
 
 		tailExecutorService = Executors.newFixedThreadPool(1);
+		processExecutorService = Executors.newFixedThreadPool(1);
 		listenerExecutorService = Executors.newFixedThreadPool(10);
 	}
 
@@ -48,14 +50,16 @@ public class DelimiterChaser implements Chaser {
 
 	@Override
 	public void process(Byte[] bytes) {
-		listeners.parallelStream()
-			.forEach(listener ->
-				listenerExecutorService.execute(() -> listener.process(bytes)));
+		processExecutorService.execute(
+			() -> listeners.parallelStream()
+					.forEach(listener -> listener.process(bytes))
+		);
 	}
 
 	@Override
 	public void close() throws IOException {
 		IOUtils.shutdownExecutorService(tailExecutorService);
+		IOUtils.shutdownExecutorService(processExecutorService);
 		IOUtils.shutdownExecutorService(listenerExecutorService);
 	}
 
