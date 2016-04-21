@@ -1,7 +1,7 @@
 package chaser.core.chaser;
 
 import chaser.core.listener.Listener;
-import chaser.core.tail.FullChangeReadingTail;
+import chaser.core.tail.FullReadingTail;
 import chaser.core.tail.Tail;
 import chaser.core.target.ChaseFile;
 import chaser.core.watcher.Watcher;
@@ -28,7 +28,7 @@ public class WholeChangeChaser implements Chaser {
 		this.watcher = watcher;
 		this.target = ChaseFile.of(target);
 		this.listeners = listeners;
-		this.tail = new FullChangeReadingTail();
+		this.tail = new FullReadingTail();
 
 		watcher.setChaser(this);
 

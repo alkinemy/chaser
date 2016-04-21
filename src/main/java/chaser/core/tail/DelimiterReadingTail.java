@@ -8,7 +8,7 @@ import chaser.util.IOUtils;
 import java.io.*;
 import java.util.Arrays;
 
-public class DelimiterTail implements Tail {
+public class DelimiterReadingTail implements Tail {
 
 	private Chaser chaser;
 
@@ -16,7 +16,7 @@ public class DelimiterTail implements Tail {
 
 	private final byte[] delimiter;
 
-	public DelimiterTail(String delimiter) {
+	public DelimiterReadingTail(String delimiter) {
 		//TODO close처리
 		//TODO 마지막에 남아있는걸 chaser가 처리하게 해야됨
 		this.delimiter = delimiter.getBytes();
