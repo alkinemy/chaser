@@ -24,7 +24,7 @@ public class FullChaser implements Chaser {
 
 	private ChaseFile target;
 
-	private FullChaser(Watcher watcher, Path target, List<Listener> listeners) {
+	public FullChaser(Watcher watcher, Path target, List<Listener> listeners) {
 		this.watcher = watcher;
 		this.target = ChaseFile.of(target);
 		this.listeners = listeners;

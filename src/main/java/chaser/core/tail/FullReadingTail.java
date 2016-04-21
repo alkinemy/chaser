@@ -8,8 +8,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.logging.Logger;
 
 public class FullReadingTail implements Tail {
+
+	private Logger log = Logger.getLogger(this.getClass().getName());
 
 	public Byte[] read(ChaseFile target) {
 		RandomAccessFile randomAccessFile = null;
@@ -41,6 +44,7 @@ public class FullReadingTail implements Tail {
 			e.printStackTrace();
 			return null;
 		} finally {
+			log.finest("Finishing tail job...");
 			IOUtils.closeQuietly(byteArrayOutputStream);
 			IOUtils.closeQuietly(randomAccessFile);
 		}

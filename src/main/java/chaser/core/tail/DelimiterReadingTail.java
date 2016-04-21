@@ -7,8 +7,11 @@ import chaser.util.IOUtils;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 public class DelimiterReadingTail implements Tail {
+
+	private Logger log = Logger.getLogger(this.getClass().getName());
 
 	private Chaser chaser;
 
@@ -16,10 +19,11 @@ public class DelimiterReadingTail implements Tail {
 
 	private final byte[] delimiter;
 
-	public DelimiterReadingTail(String delimiter) {
+	public DelimiterReadingTail(String delimiter, Chaser chaser) {
 		//TODO close처리
 		//TODO 마지막에 남아있는걸 chaser가 처리하게 해야됨
 		this.delimiter = delimiter.getBytes();
+		this.chaser = chaser;
 		byteArrayOutputStream = new ByteArrayOutputStream();
 	}
 
@@ -73,10 +77,6 @@ public class DelimiterReadingTail implements Tail {
 
 	private byte[] newBuffer() {
 		return new byte[4096];
-	}
-
-	public void setChaser(Chaser chaser) {
-		this.chaser = chaser;
 	}
 
 }
