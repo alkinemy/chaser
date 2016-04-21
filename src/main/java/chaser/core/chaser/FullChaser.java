@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class LineByLineChaser implements Chaser {
+public class FullChaser implements Chaser {
 
 	private Watcher watcher;
 	private List<Listener> listeners;
@@ -24,7 +24,7 @@ public class LineByLineChaser implements Chaser {
 
 	private ChaseFile target;
 
-	private LineByLineChaser(Watcher watcher, Path target, List<Listener> listeners) {
+	private FullChaser(Watcher watcher, Path target, List<Listener> listeners) {
 		this.watcher = watcher;
 		this.target = ChaseFile.of(target);
 		this.listeners = listeners;
@@ -43,7 +43,10 @@ public class LineByLineChaser implements Chaser {
 
 	@Override
 	public void read() {
-		tailExecutorService.execute(() -> tail.read(target));
+		tailExecutorService.execute(() -> {
+			Byte[] bytes = tail.read(target);
+			process(bytes);
+		});
 	}
 
 	@Override

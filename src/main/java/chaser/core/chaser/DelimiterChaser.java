@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class WholeChangeChaser implements Chaser {
+public class DelimiterChaser implements Chaser {
 
 	private Watcher watcher;
 	private List<Listener> listeners;
@@ -24,7 +24,7 @@ public class WholeChangeChaser implements Chaser {
 
 	private ChaseFile target;
 
-	private WholeChangeChaser(Watcher watcher, Path target, List<Listener> listeners) {
+	private DelimiterChaser(Watcher watcher, Path target, List<Listener> listeners) {
 		this.watcher = watcher;
 		this.target = ChaseFile.of(target);
 		this.listeners = listeners;
@@ -43,10 +43,7 @@ public class WholeChangeChaser implements Chaser {
 
 	@Override
 	public void read() {
-		tailExecutorService.execute(() -> {
-			Byte[] bytes = tail.read(target);
-			process(bytes);
-		});
+		tailExecutorService.execute(() -> tail.read(target));
 	}
 
 	@Override
