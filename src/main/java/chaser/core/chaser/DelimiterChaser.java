@@ -5,7 +5,6 @@ import chaser.core.tail.DelimiterReadingTail;
 import chaser.core.tail.Tail;
 import chaser.core.target.ChaseFile;
 import chaser.core.watcher.Watcher;
-import chaser.util.ByteUtils;
 import chaser.util.IOUtils;
 
 import java.io.IOException;
@@ -13,11 +12,8 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Logger;
 
 public class DelimiterChaser implements Chaser {
-
-	private Logger log = Logger.getLogger(this.getClass().getName());
 
 	private Watcher watcher;
 	private List<Listener> listeners;
@@ -52,7 +48,6 @@ public class DelimiterChaser implements Chaser {
 
 	@Override
 	public void process(Byte[] bytes) {
-		log.finest("Process: " + new String(ByteUtils.toByteArray(bytes)));
 		listeners.parallelStream()
 			.forEach(listener ->
 				listenerExecutorService.execute(() -> listener.process(bytes)));

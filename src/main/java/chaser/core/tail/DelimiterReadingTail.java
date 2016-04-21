@@ -5,13 +5,13 @@ import chaser.core.target.ChaseFile;
 import chaser.util.ByteUtils;
 import chaser.util.IOUtils;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Arrays;
-import java.util.logging.Logger;
 
 public class DelimiterReadingTail implements Tail {
-
-	private Logger log = Logger.getLogger(this.getClass().getName());
 
 	private Chaser chaser;
 
