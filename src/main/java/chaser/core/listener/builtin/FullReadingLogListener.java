@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class LogListener extends Pipeline {
+public class FullReadingLogListener extends Pipeline {
 
 	//TODO customizing
 
-	public LogListener(String logPrefixPattern) {
+	public FullReadingLogListener(String logPrefixPattern) {
 		super(
 			CharsetListener.of(Charset.forName("UTF-8")),
 			TokenizeListener.of(System.lineSeparator()),

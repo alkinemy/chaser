@@ -3,7 +3,7 @@ package chaser.example.full;
 import chaser.core.chaser.Chaser;
 import chaser.core.chaser.ChaserBuilder;
 import chaser.core.listener.Pipeline;
-import chaser.core.listener.builtin.LogListener;
+import chaser.core.listener.builtin.FullReadingLogListener;
 import chaser.core.listener.builtin.base.PrintListener;
 import chaser.core.watcher.WatcherType;
 
@@ -14,7 +14,7 @@ public class FullChaserLogListenerExample {
 			.readChangesFullyThenProcess()
 			.target("/Users/joke/test/test.out")
 			.watcher(WatcherType.FILE_SYSTEM)
-			.listener(Pipeline.of(new LogListener("\\[hello\\]"), new PrintListener()))
+			.listener(Pipeline.of(new FullReadingLogListener("\\[hello\\]"), new PrintListener()))
 			.build();
 
 		chaser.chase();
