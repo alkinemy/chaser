@@ -21,7 +21,6 @@ public class DelimiterChaser implements Chaser {
 
 	private ExecutorService tailExecutorService;
 	private ExecutorService processExecutorService;
-	private ExecutorService listenerExecutorService;
 
 	private ChaseFile target;
 
@@ -35,7 +34,6 @@ public class DelimiterChaser implements Chaser {
 
 		tailExecutorService = Executors.newFixedThreadPool(1);
 		processExecutorService = Executors.newFixedThreadPool(1);
-		listenerExecutorService = Executors.newFixedThreadPool(10);
 	}
 
 	@Override
@@ -60,7 +58,6 @@ public class DelimiterChaser implements Chaser {
 	public void close() throws IOException {
 		IOUtils.shutdownExecutorService(tailExecutorService);
 		IOUtils.shutdownExecutorService(processExecutorService);
-		IOUtils.shutdownExecutorService(listenerExecutorService);
 	}
 
 }
