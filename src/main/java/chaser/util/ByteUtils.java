@@ -1,5 +1,9 @@
 package chaser.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class ByteUtils {
 
 	public static byte[] toByteArray(Byte[] bytes) {
@@ -26,8 +30,36 @@ public abstract class ByteUtils {
 		return result;
 	}
 
-	public static byte[][] chop(byte[] bytes, byte[] delimeter) {
-		return null;
+	public static byte[][] chop(byte[] bytes, byte[] delimiter) {
+		List<Integer> pivots = new ArrayList<>();
+		for(int i = 0; i < bytes.length - delimiter.length + 1; i++) {
+			boolean equal = true;
+			for(int j = 0; j < delimiter.length; j++) {
+				if (delimiter[j] != bytes[i + j]) {
+					equal = false;
+					break;
+				}
+			}
+			if (equal) {
+				pivots.add(i);
+				i = i + delimiter.length;
+			}
+		}
+
+		if (pivots.size() == 0) {
+			return new byte[][] { bytes };
+		}
+
+		byte[][] result = new byte[pivots.size() + 1][];
+		int currentPivot = 0;
+		int nextPivot;
+		for(int i = 0; i < pivots.size(); i++) {
+			nextPivot = pivots.get(i);
+			result[i] = Arrays.copyOfRange(bytes, currentPivot, nextPivot);
+			currentPivot = nextPivot + delimiter.length;
+		}
+		result[pivots.size()] = Arrays.copyOfRange(bytes, currentPivot, bytes.length);
+		return result;
 	}
 
 }

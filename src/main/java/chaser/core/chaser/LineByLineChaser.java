@@ -43,9 +43,7 @@ public class LineByLineChaser implements Chaser {
 
 	@Override
 	public void read() {
-		tailExecutorService.execute(() -> {
-			tail.read(target);
-		});
+		tailExecutorService.execute(() -> tail.read(target));
 	}
 
 	@Override
