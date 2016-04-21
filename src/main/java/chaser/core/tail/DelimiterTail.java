@@ -8,17 +8,18 @@ import chaser.util.IOUtils;
 import java.io.*;
 import java.util.Arrays;
 
-public class LineByLineReadingTail implements Tail {
-
-	private static final byte[] LINE_SEPARATOR = System.lineSeparator().getBytes();
+public class DelimiterTail implements Tail {
 
 	private Chaser chaser;
 
 	private ByteArrayOutputStream byteArrayOutputStream;
 
-	public LineByLineReadingTail() {
+	private final byte[] delimiter;
+
+	public DelimiterTail(String delimiter) {
 		//TODO close처리
 		//TODO 마지막에 남아있는걸 chaser가 처리하게 해야됨
+		this.delimiter = delimiter.getBytes();
 		byteArrayOutputStream = new ByteArrayOutputStream();
 	}
 
@@ -41,7 +42,7 @@ public class LineByLineReadingTail implements Tail {
 				while ((readCount = randomAccessFile.read(buffer)) != -1) {
 					byteArrayOutputStream.write(buffer, streamPosition, readCount);
 
-					byte[][] lines = ByteUtils.chop(byteArrayOutputStream.toByteArray(), LINE_SEPARATOR);
+					byte[][] lines = ByteUtils.chop(byteArrayOutputStream.toByteArray(), delimiter);
 					if (lines.length == 1) {
 						streamPosition += readCount;
 					} else {
