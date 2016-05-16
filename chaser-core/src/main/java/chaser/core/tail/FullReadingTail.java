@@ -1,6 +1,6 @@
 package chaser.core.tail;
 
-import chaser.core.file.ChaseFile;
+import chaser.core.file.ChaserFile;
 import chaser.util.ByteUtils;
 import chaser.util.IOUtils;
 
@@ -11,7 +11,7 @@ import java.io.RandomAccessFile;
 
 public class FullReadingTail implements Tail {
 
-	public Byte[] read(ChaseFile target) {
+	public Byte[] read(ChaserFile target) {
 		RandomAccessFile randomAccessFile = null;
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		int streamPosition = 0;

@@ -1,9 +1,9 @@
 package chaser.core.tail;
 
-import chaser.core.file.ChaseFile;
+import chaser.core.file.ChaserFile;
 
 public interface Tail {
 
-	Byte[] read(ChaseFile target);
+	Byte[] read(ChaserFile target);
 
 }

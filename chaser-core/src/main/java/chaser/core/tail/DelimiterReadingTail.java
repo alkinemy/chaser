@@ -1,7 +1,7 @@
 package chaser.core.tail;
 
 import chaser.core.chaser.Chaser;
-import chaser.core.file.ChaseFile;
+import chaser.core.file.ChaserFile;
 import chaser.util.ByteUtils;
 import chaser.util.IOUtils;
 
@@ -27,7 +27,7 @@ public class DelimiterReadingTail implements Tail {
 		byteArrayOutputStream = new ByteArrayOutputStream();
 	}
 
-	public Byte[] read(ChaseFile target) {
+	public Byte[] read(ChaserFile target) {
 		RandomAccessFile randomAccessFile = null;
 		int streamPosition = 0;
 		try {

@@ -3,7 +3,7 @@ package chaser.core.chaser;
 import chaser.core.listener.Listener;
 import chaser.core.tail.FullReadingTail;
 import chaser.core.tail.Tail;
-import chaser.core.file.ChaseFile;
+import chaser.core.file.ChaserFile;
 import chaser.core.watcher.Watcher;
 import chaser.util.IOUtils;
 
@@ -22,11 +22,11 @@ public class FullChaser implements Chaser {
 	private ExecutorService tailExecutorService;
 	private ExecutorService listenerExecutorService;
 
-	private ChaseFile target;
+	private ChaserFile target;
 
 	public FullChaser(Watcher watcher, Path target, List<Listener> listeners) {
 		this.watcher = watcher;
-		this.target = ChaseFile.of(target);
+		this.target = ChaserFile.of(target);
 		this.listeners = listeners;
 		this.tail = new FullReadingTail();
 

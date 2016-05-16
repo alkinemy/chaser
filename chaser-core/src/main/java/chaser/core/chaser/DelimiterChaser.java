@@ -3,7 +3,7 @@ package chaser.core.chaser;
 import chaser.core.listener.Listener;
 import chaser.core.tail.DelimiterReadingTail;
 import chaser.core.tail.Tail;
-import chaser.core.file.ChaseFile;
+import chaser.core.file.ChaserFile;
 import chaser.core.watcher.Watcher;
 import chaser.util.IOUtils;
 
@@ -22,11 +22,11 @@ public class DelimiterChaser implements Chaser {
 	private ExecutorService tailExecutorService;
 	private ExecutorService processExecutorService;
 
-	private ChaseFile target;
+	private ChaserFile target;
 
 	public DelimiterChaser(String delimiter, Watcher watcher, Path target, List<Listener> listeners) {
 		this.watcher = watcher;
-		this.target = ChaseFile.of(target);
+		this.target = ChaserFile.of(target);
 		this.listeners = listeners;
 		this.tail = new DelimiterReadingTail(delimiter, this);
 

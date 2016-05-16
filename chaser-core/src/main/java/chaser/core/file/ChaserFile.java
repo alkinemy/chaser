@@ -2,18 +2,18 @@ package chaser.core.file;
 
 import java.nio.file.Path;
 
-public class ChaseFile {
+public class ChaserFile {
 
 	private Path path;
 	private long position;
 
-	private ChaseFile(Path path) {
+	private ChaserFile(Path path) {
 		this.path = path;
 		this.position = 0;
 	}
 
-	public static ChaseFile of(Path path) {
-		return new ChaseFile(path);
+	public static ChaserFile of(Path path) {
+		return new ChaserFile(path);
 	}
 
 	public Path getPath() {
