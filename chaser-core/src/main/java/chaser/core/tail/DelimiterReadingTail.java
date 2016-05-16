@@ -1,7 +1,7 @@
 package chaser.core.tail;
 
 import chaser.core.chaser.Chaser;
-import chaser.core.target.ChaseFile;
+import chaser.core.file.ChaseFile;
 import chaser.util.ByteUtils;
 import chaser.util.IOUtils;
 

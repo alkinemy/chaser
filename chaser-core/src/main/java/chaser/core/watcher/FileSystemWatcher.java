@@ -17,7 +17,7 @@ public class FileSystemWatcher implements Watcher {
 	public FileSystemWatcher(String targetPathString) {
 		this.target = Paths.get(targetPathString);
 		//TODO file existence check
-		//TODO check if target is file type
+		//TODO check if file is file type
 	}
 
 	public FileSystemWatcher(Path targetPath) {

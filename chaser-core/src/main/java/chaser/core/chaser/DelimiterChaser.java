@@ -3,7 +3,7 @@ package chaser.core.chaser;
 import chaser.core.listener.Listener;
 import chaser.core.tail.DelimiterReadingTail;
 import chaser.core.tail.Tail;
-import chaser.core.target.ChaseFile;
+import chaser.core.file.ChaseFile;
 import chaser.core.watcher.Watcher;
 import chaser.util.IOUtils;
 

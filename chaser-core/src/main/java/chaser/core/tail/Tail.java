@@ -1,6 +1,6 @@
 package chaser.core.tail;
 
-import chaser.core.target.ChaseFile;
+import chaser.core.file.ChaseFile;
 
 public interface Tail {
 
