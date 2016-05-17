@@ -4,6 +4,6 @@ import chaser.standalone.domain.core.file.ChaserFile;
 
 public interface Tail {
 
-	Byte[] read(ChaserFile target);
+	void read(ChaserFile target);
 
 }

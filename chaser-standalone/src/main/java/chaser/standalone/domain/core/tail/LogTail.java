@@ -11,7 +11,6 @@ import java.io.RandomAccessFile;
 
 public class LogTail implements Tail {
 
-
 	private ByteArrayOutputStream byteArrayOutputStream;
 
 	private final byte[] delimiter;
@@ -23,7 +22,7 @@ public class LogTail implements Tail {
 		byteArrayOutputStream = new ByteArrayOutputStream();
 	}
 
-	public Byte[] read(ChaserFile target) {
+	public void read(ChaserFile target) {
 		RandomAccessFile randomAccessFile = null;
 		int streamPosition = 0;
 		try {
@@ -59,10 +58,8 @@ public class LogTail implements Tail {
 				}
 				target.setPosition(randomAccessFile.getFilePointer());
 			} while(targetFile.length() != target.getPosition());
-			return null;
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
 		} finally {
 			IOUtils.closeQuietly(randomAccessFile);
 		}

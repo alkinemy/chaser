@@ -1,7 +1,7 @@
 package chaser.standalone.domain.core.listener;
 
-public interface Listener<F, T> {
+public interface Listener {
 
-	T process(F from);
+	void process(byte[] data);
 
 }

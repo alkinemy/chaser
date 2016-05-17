@@ -1,11 +1,17 @@
 package chaser.standalone.domain.core.file;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 
+@Getter
 public class ChaserFile {
 
+	@Setter
 	private Path path;
+	@Setter
 	private long position;
 	private Charset charset;
 
@@ -21,18 +27,6 @@ public class ChaserFile {
 
 	public static ChaserFile of(Path path, Charset charset) {
 		return new ChaserFile(path, charset);
-	}
-
-	public Path getPath() {
-		return path;
-	}
-
-	public long getPosition() {
-		return position;
-	}
-
-	public void setPosition(long position) {
-		this.position = position;
 	}
 
 }
